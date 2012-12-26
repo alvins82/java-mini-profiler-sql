@@ -48,7 +48,7 @@ public class SqlRecordDataSource implements DataSource {
 		Connection connection = realDataSource.getConnection();
 		ConnectionHandler connHandler = new ConnectionHandler(connection);
 		Connection proxyConnection = (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] { Connection.class }, connHandler);
-		log.debug(String.format("Created a new proxy connection for native connection : %s", connection.toString()));
+		log.trace("Created a new proxy connection for native connection : {}", connection.toString());
 		return proxyConnection;
 	}
 
@@ -56,7 +56,7 @@ public class SqlRecordDataSource implements DataSource {
 		final Connection connection = realDataSource.getConnection(username, password);
 		ConnectionHandler connHandler = new ConnectionHandler(connection);
 		Connection proxyConnection = (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] { Connection.class }, connHandler);
-		log.debug(String.format("Created a new proxy connection for native connection : %s", connection.toString()));
+		log.trace("Created a new proxy connection for native connection : {}", connection.toString());
 		return proxyConnection;
 	}
 

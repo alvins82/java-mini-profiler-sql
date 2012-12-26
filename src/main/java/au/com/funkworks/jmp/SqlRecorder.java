@@ -51,17 +51,17 @@ final class SqlRecorder implements Driver {
 			throw new SqlRecorderException("driver class cannot be empty");
 		}
 
-		log.info(String.format("Starting to register drivers: %s", driverClass));
+		log.info("Starting to register drivers: {}", driverClass);
 		this.driverClass = driverClass;
 		proxyDriver();
-		log.info("Finished startup..");
+		log.info("Finished startup.");
 	}
 
 	public Connection connect(String s, Properties properties) throws SQLException {
 		Connection connection = driver.connect(s, properties);
 		ConnectionHandler connHandler = new ConnectionHandler(connection);
 		Connection proxyConnection = (Connection) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] { Connection.class }, connHandler);
-		log.debug(String.format("Created a new proxy connection for native connection : %s", connection.toString()));
+		log.trace("Created a new proxy connection for native connection : {}", connection.toString());
 		return proxyConnection;
 	}
 
@@ -97,15 +97,15 @@ final class SqlRecorder implements Driver {
 			// Now enumerate thro the registered drivers and deregister all the
 			// drivers so that SqlRecorder becomes the first driver in queue.
 			// Add the other drivers to the end of the queue
-			log.info(String.format("Processing user input driver: %s", driverClass));
+			log.info("Processing user input driver: {}", driverClass);
 			Driver driver = null;
 			List<Driver> unregisteredDrivers = new ArrayList<Driver>();
 			while (allRegDrivers.hasMoreElements()) {
 				driver = allRegDrivers.nextElement();
-				log.info(String.format("Found registered jdbc driver: %s ", driver.getClass().getName()));
+				log.info("Found registered jdbc driver: {}", driver.getClass().getName());
 				if (driver.getClass().getName().equals(driverClass)) {
 					this.driver = driver;
-					log.info(String.format("Matched existing driver: registered driver: %s, user input: %s. Deregistering driver", driver.getClass().getName(), driverClass));
+					log.info("Matched existing driver: registered driver: {}, user input: {}. Deregistering driver", driver.getClass().getName(), driverClass);
 				}
 				DriverManager.deregisterDriver(driver);
 				unregisteredDrivers.add(driver);// Keep track of unreg drivers
