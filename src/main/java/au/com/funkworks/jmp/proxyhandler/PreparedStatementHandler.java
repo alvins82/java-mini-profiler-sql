@@ -49,7 +49,7 @@ public final class PreparedStatementHandler implements InvocationHandler {
 	public Object invoke(Object proxy, Method method, Object[] args) throws SQLException {
 
 		String methodName = method.getName();
-		log.debug(String.format("Executed method in PreparedStatementHandler : %s", methodName));
+		log.trace(String.format("Executed method in PreparedStatementHandler : %s", methodName));
 
 		Step step = null;
 		try {

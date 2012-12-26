@@ -58,7 +58,7 @@ public final class ConnectionHandler implements InvocationHandler {
 
 		String methodName = method.getName();
 
-		log.debug(String.format("Executed method in ConnectionHandler : %s", methodName));
+		log.trace("Executed method in ConnectionHandler : {}", methodName);
 		if (isStatement(methodName)) {
 			return checkAndCreateStatement(o);
 		} else if (isPreparedStatement(methodName)) {
@@ -73,7 +73,7 @@ public final class ConnectionHandler implements InvocationHandler {
 		CallableStatement callableStmt = (CallableStatement) o;
 		PreparedStatementHandler pStmtHandler = new PreparedStatementHandler(callableStmt, (String) args[0]);
 		CallableStatement proxyStmt = (CallableStatement) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] { CallableStatement.class }, pStmtHandler);
-		log.debug("Created new proxy callable statement");
+		log.trace("Created new proxy callable statement");
 		return proxyStmt;
 	}
 
@@ -81,7 +81,7 @@ public final class ConnectionHandler implements InvocationHandler {
 		PreparedStatement pStmt = (PreparedStatement) o;
 		PreparedStatementHandler pStmtHandler = new PreparedStatementHandler(pStmt, (String) args[0]);
 		PreparedStatement proxyStmt = (PreparedStatement) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] { PreparedStatement.class }, pStmtHandler);
-		log.debug("Created new proxy prepared statement");
+		log.trace("Created new proxy prepared statement");
 		return proxyStmt;
 	}
 
@@ -89,7 +89,7 @@ public final class ConnectionHandler implements InvocationHandler {
 		Statement stmt = (Statement) o;
 		StatementHandler stmtHandler = new StatementHandler(stmt);
 		Statement proxyStmt = (Statement) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] { Statement.class }, stmtHandler);
-		log.debug("Created new proxy statement");
+		log.trace("Created new proxy statement");
 		return proxyStmt;
 	}
 
