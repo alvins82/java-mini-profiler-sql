@@ -27,6 +27,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -128,5 +129,10 @@ final class SqlRecorder implements Driver {
 		} catch (Exception e) {
 			throw new SqlRecorderException("Unexpected error when registering drivers", e);
 		}
+	}
+
+	public java.util.logging.Logger getParentLogger() throws SQLFeatureNotSupportedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
