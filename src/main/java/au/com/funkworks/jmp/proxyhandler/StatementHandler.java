@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import au.com.funkworks.jmp.MiniProfiler;
-import au.com.funkworks.jmp.MiniProfiler.Step;
+import au.com.funkworks.jmp.Step;
 
 public final class StatementHandler implements InvocationHandler {
 
@@ -51,7 +51,7 @@ public final class StatementHandler implements InvocationHandler {
 
 		try {
 			if (methodName.startsWith("execute") || methodName.equals("addBatch")) {
-				step = MiniProfiler.step((String) args[0]);
+				step = MiniProfiler.step((String) args[0], "SQL Statements");
 			}
 			return method.invoke(statement, args);
 		} catch (IllegalArgumentException e) {

@@ -31,7 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import au.com.funkworks.jmp.MiniProfiler;
-import au.com.funkworks.jmp.MiniProfiler.Step;
+import au.com.funkworks.jmp.Step;
 
 public final class PreparedStatementHandler implements InvocationHandler {
 
@@ -54,7 +54,7 @@ public final class PreparedStatementHandler implements InvocationHandler {
 		Step step = null;
 		try {
 			if (methodName.startsWith("execute") || methodName.equals("addBatch")) {
-				step = MiniProfiler.step(preparedStatementSql);
+				step = MiniProfiler.step(preparedStatementSql, "SQL Prepared Statements");
 			}
 			return method.invoke(preparedStatement, args);
 		} catch (IllegalArgumentException e) {
